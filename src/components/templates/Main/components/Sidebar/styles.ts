@@ -27,16 +27,6 @@ export const WrapperRouterGroup = styled.ul`
   gap: 4px;
 `;
 
-export const RouteGroupAction = styled.li`
-  padding: 6px;
-
-  background-color: #433d8b;
-  color: #ffffff;
-
-  user-select: none;
-  cursor: pointer;
-`;
-
 export const WrapperRouter = styled.ul<{
   $open: boolean;
   $routeAmount: number;
@@ -65,18 +55,42 @@ export const WrapperRouter = styled.ul<{
   transition: max-height 0.4s, opacity 0.4s;
 `;
 
-export const RouteAction = styled.li`
+export const RouteGroupAction = styled.li`
   display: flex;
   align-items: center;
-  padding-left: 8px;
+  gap: 8px;
 
-  min-height: ${ROUTE_ACTION_HEIGHT}px;
+  padding: 16px;
+  border-radius: 6px;
 
   background-color: #433d8b;
   color: #ffffff;
 
+  font-size: 14px;
+  font-weight: 600;
+
   user-select: none;
   cursor: pointer;
+`;
+
+export const RouteAction = styled.li`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  padding-left: 16px;
+
+  min-height: ${ROUTE_ACTION_HEIGHT}px;
+  border-radius: 6px;
+
+  background-color: #1f2544;
+  color: #ffffff;
+
+  user-select: none;
+  cursor: pointer;
+
+  font-size: 14px;
+  font-weight: 500;
 
   overflow: hidden;
 `;

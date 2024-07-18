@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { SidebarRoutes } from "../../../../../core/constants/sidebar-routes";
 import { normalize } from "../../../../../helpers/normalize";
 import { useToggle } from "../../../../../hooks/useToggle";
+import { MaterialSymbols } from "../../../../UI/atoms/MaterialSymbols";
 import * as S from "./styles";
 
 export const Sidebar = () => {
@@ -22,7 +23,7 @@ export const Sidebar = () => {
 
       <S.Divider />
 
-      {SidebarRoutes.map(({ name, path: pathGroup, children }) => {
+      {SidebarRoutes.map(({ icon, name, path: pathGroup, children }) => {
         if (!pathGroup) {
           pathGroup = normalize(name);
         }
@@ -31,21 +32,21 @@ export const Sidebar = () => {
           <S.WrapperRouterGroup key={name}>
             {children ? (
               <S.RouteGroupAction onClick={handleClickRouteGroupToggle}>
-                {/* {icon} */}
+                <MaterialSymbols icon={icon} fontSize={14} />
                 <span>{name}</span>
               </S.RouteGroupAction>
             ) : (
               <S.RouteGroupAction
                 onClick={() => handleClickRouteNavigate(pathGroup)}
               >
-                {/* {icon} */}
+                <MaterialSymbols icon={icon} fontSize={14} />
                 <span>{name}</span>
               </S.RouteGroupAction>
             )}
 
             <S.WrapperRouter $open={open} $routeAmount={children?.length ?? 0}>
               {children &&
-                children.map(({ name, path }) => {
+                children.map(({ icon, name, path }) => {
                   if (!path) {
                     path = normalize(name);
                   }
@@ -57,7 +58,7 @@ export const Sidebar = () => {
                       key={name}
                       onClick={() => handleClickRouteNavigate(path)}
                     >
-                      {/* {icon} */}
+                      <MaterialSymbols icon={icon} fontSize={14} />
                       <span>{name}</span>
                     </S.RouteAction>
                   );

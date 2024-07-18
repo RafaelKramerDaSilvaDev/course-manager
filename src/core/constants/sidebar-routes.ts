@@ -3,29 +3,27 @@ import { Routes } from "../../types/routes";
 export const SidebarRoutes: Routes = [
   {
     name: "Dashboard",
-    path: "dashboard",
     icon: "dashboard",
   },
   {
     name: "Cadastros",
-    path: "cadastros",
-    icon: "cadastros",
+    icon: "add_circle_outline",
     children: [
       {
         name: "Estudante",
-        icon: "",
+        icon: "person",
       },
       {
         name: "Professor",
-        icon: "",
+        icon: "school",
       },
       {
         name: "Curso",
-        icon: "",
+        icon: "menu_book",
       },
       {
         name: "Equipamento",
-        icon: "",
+        icon: "hardware",
       },
     ],
   },
