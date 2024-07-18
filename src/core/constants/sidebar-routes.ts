@@ -13,8 +13,19 @@ export const SidebarRoutes: Routes = [
     children: [
       {
         name: "Estudante",
-        path: "estudante",
-        icon: "estudante",
+        icon: "",
+      },
+      {
+        name: "Professor",
+        icon: "",
+      },
+      {
+        name: "Curso",
+        icon: "",
+      },
+      {
+        name: "Equipamento",
+        icon: "",
       },
     ],
   },

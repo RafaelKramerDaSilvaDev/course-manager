@@ -1,11 +1,18 @@
 import { useNavigate } from "react-router-dom";
 import { SidebarRoutes } from "../../../../../core/constants/sidebar-routes";
+import { normalize } from "../../../../../helpers/normalize";
+import { useToggle } from "../../../../../hooks/useToggle";
 import * as S from "./styles";
 
 export const Sidebar = () => {
+  const { open, toggle } = useToggle();
   const navigate = useNavigate();
 
-  const handleClickRoute = (path: string) => {
+  const handleClickRouteGroupToggle = () => {
+    toggle();
+  };
+
+  const handleClickRouteNavigate = (path: string) => {
     navigate(path);
   };
 
@@ -15,32 +22,42 @@ export const Sidebar = () => {
 
       <S.Divider />
 
-      {SidebarRoutes.map(({ icon, name, path: pathGroup, children }) => {
+      {SidebarRoutes.map(({ name, path: pathGroup, children }) => {
+        if (!pathGroup) {
+          pathGroup = normalize(name);
+        }
+
         return (
           <S.WrapperRouterGroup key={name}>
             {children ? (
-              <S.RouterGroupAction>
-                {icon}
+              <S.RouteGroupAction onClick={handleClickRouteGroupToggle}>
+                {/* {icon} */}
                 <span>{name}</span>
-              </S.RouterGroupAction>
+              </S.RouteGroupAction>
             ) : (
-              <S.RouterGroupAction onClick={() => handleClickRoute(pathGroup)}>
-                {icon}
+              <S.RouteGroupAction
+                onClick={() => handleClickRouteNavigate(pathGroup)}
+              >
+                {/* {icon} */}
                 <span>{name}</span>
-              </S.RouterGroupAction>
+              </S.RouteGroupAction>
             )}
 
-            <S.WrapperRouter>
+            <S.WrapperRouter $open={open} $routeAmount={children?.length ?? 0}>
               {children &&
-                children.map(({ icon, name, path }) => {
+                children.map(({ name, path }) => {
+                  if (!path) {
+                    path = normalize(name);
+                  }
+
                   path = `${pathGroup}/${path}`;
 
                   return (
                     <S.RouteAction
                       key={name}
-                      onClick={() => handleClickRoute(path)}
+                      onClick={() => handleClickRouteNavigate(path)}
                     >
-                      {icon}
+                      {/* {icon} */}
                       <span>{name}</span>
                     </S.RouteAction>
                   );
