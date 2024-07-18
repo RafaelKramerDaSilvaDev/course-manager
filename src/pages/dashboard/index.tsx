@@ -1,3 +1,3 @@
 export const DashboardPage = () => {
-  return <>DashboardPage</>;
+  return <div style={{ color: "white" }}>DashboardPage</div>;
 };

@@ -17,7 +17,12 @@ export const Sidebar = styled.aside`
   background-color: #f6f5f5;
 `;
 
-export const SearchInput = styled.input``;
+export const SearchInput = styled.input`
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  outline: none;
+`;
 
 export const Divider = styled.hr``;
 
@@ -52,7 +57,7 @@ export const WrapperRouter = styled.ul<{
 
   overflow: hidden;
 
-  transition: max-height 0.4s, opacity 0.4s;
+  transition: max-height 0.2s, opacity 0.2s;
 `;
 
 export const RouteGroupAction = styled.li`

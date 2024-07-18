@@ -1,3 +1,3 @@
 export const Header = () => {
-  return <>Header</>;
+  return <div style={{ color: "white" }}>Header</div>;
 };
