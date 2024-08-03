@@ -2,7 +2,7 @@ import * as S from "./styles";
 
 type MaterialSymbolsProps = {
   icon: string;
-  fontSize?: number;
+  fontSize?: number | string;
   color?: string;
   onClick?: () => void;
 };

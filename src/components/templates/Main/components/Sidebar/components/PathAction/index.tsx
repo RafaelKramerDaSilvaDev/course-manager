@@ -10,7 +10,7 @@ type PathActionProps = {
 export const PathAction = ({ name, icon, onPath }: PathActionProps) => {
   return (
     <S.PathAction onClick={onPath}>
-      <MaterialSymbols icon={icon} fontSize={14} />
+      <MaterialSymbols icon={icon} />
       {name}
     </S.PathAction>
   );

@@ -5,6 +5,7 @@ export const Sidebar = styled.aside`
 
   display: flex;
   flex-direction: column;
+  gap: ${({ theme }) => theme.spacings.xsmall};
 
   padding: ${({ theme }) => theme.spacings.medium};
 
@@ -14,21 +15,20 @@ export const Sidebar = styled.aside`
 export const WrapperPath = styled.ul`
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => theme.spacings.xsmall};
 `;
 
 export const WrapperRoute = styled.ul<{
-  $open: boolean;
+  $isOpen: boolean;
   $routeAmount: number;
 }>`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacings.xsmall};
 
-  padding-left: ${({ theme }) => theme.spacings.large};
+  padding-left: 2rem;
 
-  max-height: ${({ theme, $open, $routeAmount }) => {
-    if (!$open) return "0rem";
+  max-height: ${({ theme, $isOpen, $routeAmount }) => {
+    if (!$isOpen) return "0rem";
 
     let gapAmount = "";
     let heightAmount = "";
@@ -44,12 +44,16 @@ export const WrapperRoute = styled.ul<{
     return `calc(${heightAmount} + ${gapAmount})`;
   }};
 
-  opacity: ${({ $open }) => {
-    if (!$open) return 0.5;
+  opacity: ${({ $isOpen }) => {
+    if (!$isOpen) return 0.5;
     return 1;
   }};
 
   overflow: hidden;
 
-  transition: max-height 0.2s, opacity 0.2s;
+  transition: max-height ease-in-out 0.2s, opacity ease-in-out 0.2s;
+
+  li:first-child {
+    margin-top: ${({ theme }) => theme.spacings.xsmall};
+  }
 `;

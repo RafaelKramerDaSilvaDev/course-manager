@@ -3,17 +3,24 @@ import { normalize } from "../../../../../helpers/normalize";
 import { useToggle } from "../../../../../hooks/useToggle";
 import { SidebarRoutes } from "../../../../../routes/sidebar-routes";
 import { Tab } from "../../../../../types/tab";
+import { MenuButton } from "./components/MenuButton";
 import { PathAction } from "./components/PathAction";
 import { RouteAction } from "./components/RouteAction";
 import * as S from "./styles";
 
-export const Sidebar = () => {
-  const { open, toggle } = useToggle();
-  const { push } = useTabsContext();
+type SidebarProps = {
+  toggleMenu: () => void;
+  toggleOffMenu: () => void;
+};
 
-  const handleClickPathToggle = () => {
-    toggle();
-  };
+export const Sidebar = ({ toggleMenu, toggleOffMenu }: SidebarProps) => {
+  const {
+    state: isOpen,
+    toggle: togglePath,
+    toggleOff: toggleOffPath,
+  } = useToggle(false);
+
+  const { push } = useTabsContext();
 
   const handleClickRouteNavigate = ({
     link,
@@ -28,8 +35,20 @@ export const Sidebar = () => {
     push({ link, page });
   };
 
+  const handleClickMenu = () => {
+    toggleMenu();
+    toggleOffPath();
+  };
+
+  const handleClickPath = () => {
+    togglePath();
+    toggleOffMenu();
+  };
+
   return (
     <S.Sidebar>
+      <MenuButton onMenu={handleClickMenu} />
+
       {SidebarRoutes?.map(
         ({ icon, name: namePath, link: linkPath, children }) => {
           if (!linkPath) {
@@ -42,7 +61,7 @@ export const Sidebar = () => {
                 <PathAction
                   icon={icon}
                   name={namePath}
-                  onPath={handleClickPathToggle}
+                  onPath={handleClickPath}
                 />
               ) : (
                 <PathAction
@@ -57,7 +76,10 @@ export const Sidebar = () => {
                 />
               )}
 
-              <S.WrapperRoute $open={open} $routeAmount={children?.length ?? 0}>
+              <S.WrapperRoute
+                $isOpen={isOpen}
+                $routeAmount={children?.length ?? 0}
+              >
                 {children &&
                   children?.map(({ icon, name, link }) => {
                     if (!link) {

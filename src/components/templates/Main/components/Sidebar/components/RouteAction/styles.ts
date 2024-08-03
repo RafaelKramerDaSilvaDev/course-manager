@@ -17,4 +17,10 @@ export const RouteAction = styled.li`
 
   user-select: none;
   cursor: pointer;
+
+  transition: filter 0.2s ease-out;
+
+  &:hover {
+    filter: brightness(90%);
+  }
 `;

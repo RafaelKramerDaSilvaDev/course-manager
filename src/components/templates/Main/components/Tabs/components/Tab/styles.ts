@@ -17,12 +17,18 @@ export const Tab = styled(Button)`
 
   user-select: none;
 
+  transition: filter 0.2s ease-out;
+
   span:last-child {
     background-color: ${({ theme }) => theme.colors.white100};
     border-radius: 50%;
   }
 
   span:last-child:hover {
+    filter: brightness(90%);
+  }
+
+  &:hover {
     filter: brightness(90%);
   }
 `;
