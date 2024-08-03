@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 import { Header } from "./components/Header";
 import { Sidebar } from "./components/Sidebar";
+import { Tabs } from "./components/Tabs";
 import * as S from "./styles";
 
 export const MainTemplate = () => {
@@ -8,7 +9,11 @@ export const MainTemplate = () => {
     <S.MainTemplate>
       <Sidebar />
       <Header />
-      <Outlet />
+
+      <S.Content>
+        <Tabs />
+        <Outlet />
+      </S.Content>
     </S.MainTemplate>
   );
 };

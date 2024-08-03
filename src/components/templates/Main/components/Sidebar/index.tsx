@@ -1,72 +1,91 @@
-import { useNavigate } from "react-router-dom";
-import { SidebarRoutes } from "../../../../../core/constants/sidebar-routes";
+import { useTabsContext } from "../../../../../contexts/useTabsContext";
 import { normalize } from "../../../../../helpers/normalize";
 import { useToggle } from "../../../../../hooks/useToggle";
-import { MaterialSymbols } from "../../../../UI/atoms/MaterialSymbols";
+import { SidebarRoutes } from "../../../../../routes/sidebar-routes";
+import { Tab } from "../../../../../types/tab";
+import { PathAction } from "./components/PathAction";
+import { RouteAction } from "./components/RouteAction";
 import * as S from "./styles";
 
 export const Sidebar = () => {
   const { open, toggle } = useToggle();
-  const navigate = useNavigate();
+  const { push } = useTabsContext();
 
-  const handleClickRouteGroupToggle = () => {
+  const handleClickPathToggle = () => {
     toggle();
   };
 
-  const handleClickRouteNavigate = (path: string) => {
-    navigate(path);
+  const handleClickRouteNavigate = ({
+    link,
+    module,
+    page,
+  }: Omit<Tab, "redirect">) => {
+    if (module) {
+      push({ link, module, page });
+      return;
+    }
+
+    push({ link, page });
   };
 
   return (
     <S.Sidebar>
-      <S.SearchInput placeholder="Buscar" />
+      {SidebarRoutes?.map(
+        ({ icon, name: namePath, link: linkPath, children }) => {
+          if (!linkPath) {
+            linkPath = normalize(namePath);
+          }
 
-      <S.Divider />
-
-      {SidebarRoutes.map(({ icon, name, path: pathGroup, children }) => {
-        if (!pathGroup) {
-          pathGroup = normalize(name);
-        }
-
-        return (
-          <S.WrapperRouterGroup key={name}>
-            {children ? (
-              <S.RouteGroupAction onClick={handleClickRouteGroupToggle}>
-                <MaterialSymbols icon={icon} fontSize={14} />
-                <span>{name}</span>
-              </S.RouteGroupAction>
-            ) : (
-              <S.RouteGroupAction
-                onClick={() => handleClickRouteNavigate(pathGroup)}
-              >
-                <MaterialSymbols icon={icon} fontSize={14} />
-                <span>{name}</span>
-              </S.RouteGroupAction>
-            )}
-
-            <S.WrapperRouter $open={open} $routeAmount={children?.length ?? 0}>
-              {children &&
-                children.map(({ icon, name, path }) => {
-                  if (!path) {
-                    path = normalize(name);
+          return (
+            <S.WrapperPath key={namePath}>
+              {children ? (
+                <PathAction
+                  icon={icon}
+                  name={namePath}
+                  onPath={handleClickPathToggle}
+                />
+              ) : (
+                <PathAction
+                  icon={icon}
+                  name={namePath}
+                  onPath={() =>
+                    handleClickRouteNavigate({
+                      link: linkPath,
+                      page: namePath,
+                    })
                   }
+                />
+              )}
 
-                  path = `${pathGroup}/${path}`;
+              <S.WrapperRoute $open={open} $routeAmount={children?.length ?? 0}>
+                {children &&
+                  children?.map(({ icon, name, link }) => {
+                    if (!link) {
+                      link = normalize(name);
+                    }
 
-                  return (
-                    <S.RouteAction
-                      key={name}
-                      onClick={() => handleClickRouteNavigate(path)}
-                    >
-                      <MaterialSymbols icon={icon} fontSize={14} />
-                      <span>{name}</span>
-                    </S.RouteAction>
-                  );
-                })}
-            </S.WrapperRouter>
-          </S.WrapperRouterGroup>
-        );
-      })}
+                    link = `${linkPath}/${link}`;
+
+                    return (
+                      <RouteAction
+                        key={name}
+                        icon={icon}
+                        name={name}
+                        onRoute={() =>
+                          handleClickRouteNavigate({
+                            link,
+                            module: namePath,
+                            page: name,
+                          })
+                        }
+                      />
+                    );
+                  })}
+              </S.WrapperRoute>
+            </S.WrapperPath>
+          );
+        }
+      )}
     </S.Sidebar>
   );
 };

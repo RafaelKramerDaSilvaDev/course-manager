@@ -1,12 +1,26 @@
+import * as S from "./styles";
+
 type MaterialSymbolsProps = {
   icon: string;
   fontSize?: number;
+  color?: string;
+  onClick?: () => void;
 };
 
-export const MaterialSymbols = ({ icon, fontSize }: MaterialSymbolsProps) => {
+export const MaterialSymbols = ({
+  icon,
+  fontSize,
+  color,
+  onClick,
+}: MaterialSymbolsProps) => {
   return (
-    <span className="material-symbols-outlined" style={{ fontSize }}>
+    <S.Span
+      className="material-symbols-outlined"
+      onClick={onClick}
+      $fontSize={fontSize}
+      $color={color}
+    >
       {icon}
-    </span>
+    </S.Span>
   );
 };
