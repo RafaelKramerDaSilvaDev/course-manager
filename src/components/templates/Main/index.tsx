@@ -6,19 +6,16 @@ import { Tabs } from "./components/Tabs";
 import * as S from "./styles";
 
 export const MainTemplate = () => {
-  const {
-    state: collapseSidebar,
-    toggle: toggleMenu,
-    toggleOff: toggleOffMenu,
-  } = useToggle(true);
+  const { open, toggle: toggleMenu, toggleOff: toggleOnMenu } = useToggle(true);
 
   return (
-    <S.MainTemplate $collapseSidebar={collapseSidebar}>
-      <Sidebar toggleMenu={toggleMenu} toggleOffMenu={toggleOffMenu} />
+    <S.MainTemplate $openSidebar={open}>
+      <Sidebar toggleMenu={toggleMenu} toggleOnMenu={toggleOnMenu} />
+
       <Header />
 
       <S.Content>
-        <Tabs />
+        <Tabs openSidebar={open} />
         <Outlet />
       </S.Content>
     </S.MainTemplate>

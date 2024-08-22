@@ -1,17 +1,17 @@
 import styled from "styled-components";
 import { Container } from "../../UI/atoms/Container";
 
-export const MainTemplate = styled.main<{ $collapseSidebar: boolean }>`
+export const MainTemplate = styled.main<{ $openSidebar: boolean }>`
   display: grid;
   grid-template-areas:
     "header header"
     "sidebar content";
 
-  grid-template-columns: ${({ $collapseSidebar }) => {
-    if ($collapseSidebar) {
-      return "72px auto";
+  grid-template-columns: ${({ $openSidebar }) => {
+    if ($openSidebar) {
+      return "48px auto";
     }
-    return "280px auto";
+    return "260px auto";
   }};
 
   grid-template-rows: min-content auto;

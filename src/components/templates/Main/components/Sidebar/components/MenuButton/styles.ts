@@ -1,12 +1,13 @@
 import styled from "styled-components";
 import { Button } from "../../../../../../UI/atoms/Button";
+import { Container } from "../../../../../../UI/atoms/Container";
 
 export const MenuButton = styled(Button)`
   display: flex;
   align-items: center;
 
-  padding: ${({ theme }) => `0rem ${theme.spacings.large}`};
-  height: 2.5rem;
+  min-height: 38px;
+  min-width: 38px;
 
   background-color: ${({ theme }) => theme.colors.white100};
   color: ${({ theme }) => theme.colors.grey500};
@@ -19,4 +20,13 @@ export const MenuButton = styled(Button)`
   &:hover {
     filter: brightness(90%);
   }
+`;
+
+export const IconContainer = styled(Container)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  min-height: 40px;
+  min-width: 40px;
 `;

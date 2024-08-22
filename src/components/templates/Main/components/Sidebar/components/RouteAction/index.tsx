@@ -10,7 +10,10 @@ type RouteActionProps = {
 export const RouteAction = ({ name, icon, onRoute }: RouteActionProps) => {
   return (
     <S.RouteAction onClick={onRoute}>
-      <MaterialSymbols icon={icon} fontSize="1rem" />
+      <S.IconContainer>
+        <MaterialSymbols icon={icon} fontSize={20} />
+      </S.IconContainer>
+
       {name}
     </S.RouteAction>
   );

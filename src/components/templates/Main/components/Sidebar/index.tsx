@@ -2,31 +2,30 @@ import { useTabsContext } from "../../../../../contexts/useTabsContext";
 import { normalize } from "../../../../../helpers/normalize";
 import { useToggle } from "../../../../../hooks/useToggle";
 import { SidebarRoutes } from "../../../../../routes/sidebar-routes";
-import { Tab } from "../../../../../types/tab";
+import { TabProps } from "../../../../../types/tab";
 import { MenuButton } from "./components/MenuButton";
-import { PathAction } from "./components/PathAction";
 import { RouteAction } from "./components/RouteAction";
 import * as S from "./styles";
 
 type SidebarProps = {
   toggleMenu: () => void;
-  toggleOffMenu: () => void;
+  toggleOnMenu: () => void;
 };
 
-export const Sidebar = ({ toggleMenu, toggleOffMenu }: SidebarProps) => {
+export const Sidebar = ({ toggleMenu, toggleOnMenu }: SidebarProps) => {
   const {
-    state: isOpen,
+    open: openPath,
     toggle: togglePath,
     toggleOff: toggleOffPath,
   } = useToggle(false);
 
-  const { push } = useTabsContext();
+  const { push, calculateTabsDebounce } = useTabsContext();
 
   const handleClickRouteNavigate = ({
     link,
     module,
     page,
-  }: Omit<Tab, "redirect">) => {
+  }: Omit<TabProps, "redirect">) => {
     if (module) {
       push({ link, module, page });
       return;
@@ -38,11 +37,16 @@ export const Sidebar = ({ toggleMenu, toggleOffMenu }: SidebarProps) => {
   const handleClickMenu = () => {
     toggleMenu();
     toggleOffPath();
+    calculateTabsDebounce();
   };
 
   const handleClickPath = () => {
     togglePath();
-    toggleOffMenu();
+    toggleOnMenu();
+
+    if (!openPath) {
+      calculateTabsDebounce();
+    }
   };
 
   return (
@@ -51,6 +55,11 @@ export const Sidebar = ({ toggleMenu, toggleOffMenu }: SidebarProps) => {
 
       {SidebarRoutes?.map(
         ({ icon, name: namePath, link: linkPath, children }) => {
+          const routeAmount = children?.length ?? 0;
+
+          console.log(children);
+          console.log(routeAmount);
+
           if (!linkPath) {
             linkPath = normalize(namePath);
           }
@@ -58,16 +67,16 @@ export const Sidebar = ({ toggleMenu, toggleOffMenu }: SidebarProps) => {
           return (
             <S.WrapperPath key={namePath}>
               {children ? (
-                <PathAction
+                <RouteAction
                   icon={icon}
                   name={namePath}
-                  onPath={handleClickPath}
+                  onRoute={handleClickPath}
                 />
               ) : (
-                <PathAction
+                <RouteAction
                   icon={icon}
                   name={namePath}
-                  onPath={() =>
+                  onRoute={() =>
                     handleClickRouteNavigate({
                       link: linkPath,
                       page: namePath,
@@ -76,12 +85,9 @@ export const Sidebar = ({ toggleMenu, toggleOffMenu }: SidebarProps) => {
                 />
               )}
 
-              <S.WrapperRoute
-                $isOpen={isOpen}
-                $routeAmount={children?.length ?? 0}
-              >
-                {children &&
-                  children?.map(({ icon, name, link }) => {
+              {children && (
+                <S.WrapperRoute $isOpen={openPath} $routeAmount={routeAmount}>
+                  {children?.map(({ icon, name, link }) => {
                     if (!link) {
                       link = normalize(name);
                     }
@@ -103,7 +109,8 @@ export const Sidebar = ({ toggleMenu, toggleOffMenu }: SidebarProps) => {
                       />
                     );
                   })}
-              </S.WrapperRoute>
+                </S.WrapperRoute>
+              )}
             </S.WrapperPath>
           );
         }

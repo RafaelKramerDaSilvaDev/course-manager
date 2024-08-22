@@ -4,21 +4,26 @@ import { useTabsContext } from "../../../../../contexts/useTabsContext";
 import { Tab } from "./components/Tab";
 import * as S from "./styles";
 
-export const Tabs = () => {
-  const { tabs, close } = useTabsContext();
-  // const { tabs, close, closeAll } = useTabsContext();
-  // const { dispatchToast } = useToastContext();
-  const navigate = useNavigate();
+type TabsProps = {
+  openSidebar: boolean;
+};
 
-  // const isMinimumOneTab = tabs.length > 0;
+export const Tabs = ({ openSidebar }: TabsProps) => {
+  const { tabs, close, tabContainerRef } = useTabsContext();
+
+  const navigate = useNavigate();
 
   const handleClickTab = (link: string) => {
     navigate(link);
   };
 
-  const handleClickCloseTab = (textKey: string) => {
-    close(textKey);
+  const handleClickCloseTab = (pageKey: string) => {
+    close(pageKey);
   };
+
+  // const { dispatchToast } = useToastContext();
+
+  // const isMinimumOneTab = tabs.length > 0;
 
   // const handleClickCloseAllTabs = () => {
   //   closeAll();
@@ -26,17 +31,20 @@ export const Tabs = () => {
   // };
 
   return (
-    <S.Wrapper>
-      <S.WrapperTabs>
-        {tabs?.map(({ page, module, link }) => (
+    <S.TabContainer ref={tabContainerRef} $openSidebar={openSidebar}>
+      {tabs?.map(({ page, module, link, dropdown }) => {
+        if (dropdown) return null;
+
+        return (
           <Tab
+            key={page}
             page={page}
             module={module}
             onTab={() => handleClickTab(link)}
             onCloseTab={() => handleClickCloseTab(page)}
           />
-        ))}
-      </S.WrapperTabs>
+        );
+      })}
 
       {/* {isMinimumOneTab && (
         <HeaderAction
@@ -45,6 +53,6 @@ export const Tabs = () => {
           onClick={handleClickCloseAllTabs}
         />
       )} */}
-    </S.Wrapper>
+    </S.TabContainer>
   );
 };

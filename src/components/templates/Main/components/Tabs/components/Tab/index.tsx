@@ -15,9 +15,7 @@ export const Tab = ({ page, module, onTab, onCloseTab }: TabProps) => {
   return (
     <S.Tab key={page} onClick={onTab}>
       {module && <S.PathText>{module}: </S.PathText>}
-
       <S.RouteText>{page}</S.RouteText>
-
       <MaterialSymbols
         icon="close_small"
         onClick={onCloseTab}

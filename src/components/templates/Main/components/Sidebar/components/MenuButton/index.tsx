@@ -8,7 +8,9 @@ type MenuButtonProps = {
 export const MenuButton = ({ onMenu }: MenuButtonProps) => {
   return (
     <S.MenuButton onClick={onMenu}>
-      <MaterialSymbols icon="menu" />
+      <S.IconContainer>
+        <MaterialSymbols icon="menu" fontSize={18} />
+      </S.IconContainer>
     </S.MenuButton>
   );
 };
