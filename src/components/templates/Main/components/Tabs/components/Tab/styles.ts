@@ -4,11 +4,12 @@ import { Span } from "../../../../../../UI/atoms/Span";
 
 export const Tab = styled(Button)`
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
 
   gap: ${({ theme }) => theme.spacings.medium};
   padding: ${({ theme }) => `${theme.spacings.small} ${theme.spacings.medium}`};
+  min-width: fit-content;
 
   background-color: ${({ theme }) => theme.colors.white100};
 
@@ -24,7 +25,7 @@ export const Tab = styled(Button)`
     border-radius: 50%;
   }
 
-  span:last-child:hover {
+  > span:hover {
     filter: brightness(90%);
   }
 

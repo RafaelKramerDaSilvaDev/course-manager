@@ -6,8 +6,8 @@ export const Circle = styled(Container)`
   justify-content: center;
   align-items: center;
 
-  min-width: 1.5rem;
-  min-height: 1.5rem;
+  min-width: 24px;
+  min-height: 24px;
 
   border-radius: 50%;
 

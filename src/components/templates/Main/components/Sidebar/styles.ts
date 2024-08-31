@@ -5,9 +5,9 @@ export const Sidebar = styled.aside`
 
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => theme.spacings.xsmall};
 
-  padding: ${({ theme }) => theme.spacings.medium};
+  gap: ${({ theme }) => theme.spacings.small};
+  padding: ${({ theme }) => theme.spacings.small};
 
   background-color: ${({ theme }) => theme.colors.grey200};
 `;
@@ -23,25 +23,19 @@ export const WrapperRoute = styled.ul<{
 }>`
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => theme.spacings.xsmall};
+  gap: ${({ theme }) => theme.spacings.small};
 
-  padding-left: 2rem;
+  padding-left: 16px;
 
-  max-height: ${({ theme, $isOpen, $routeAmount }) => {
-    if (!$isOpen) return "0rem";
+  max-height: ${({ $isOpen, $routeAmount }) => {
+    if (!$isOpen) return "0px";
 
-    let gapAmount = "";
-    let heightAmount = "";
+    const routeHeight = 38;
+    const routePadding = 4;
+    const heightAmount = $routeAmount * routeHeight;
+    const gapAmount = $routeAmount * routePadding;
 
-    for (let i = 0; i < $routeAmount; i++) {
-      heightAmount += ` + 2.5rem`;
-      gapAmount += ` + ${theme.spacings.xsmall}`;
-    }
-
-    heightAmount = heightAmount.slice(3);
-    gapAmount = gapAmount.slice(3);
-
-    return `calc(${heightAmount} + ${gapAmount})`;
+    return `${heightAmount + gapAmount}px`;
   }};
 
   opacity: ${({ $isOpen }) => {
@@ -53,7 +47,11 @@ export const WrapperRoute = styled.ul<{
 
   transition: max-height ease-in-out 0.2s, opacity ease-in-out 0.2s;
 
-  li:first-child {
-    margin-top: ${({ theme }) => theme.spacings.xsmall};
+  :first-child {
+    margin-top: 4px;
+  }
+
+  :last-child {
+    margin-bottom: 4px;
   }
 `;

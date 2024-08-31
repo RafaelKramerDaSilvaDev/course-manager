@@ -1,4 +1,6 @@
+import { useEffect, useRef } from "react";
 import { useTheme } from "styled-components";
+import { Container } from "../../../../../../UI/atoms/Container";
 import { MaterialSymbols } from "../../../../../../UI/atoms/MaterialSymbols";
 import * as S from "./styles";
 
@@ -7,16 +9,32 @@ type TabProps = {
   module?: string;
   onTab: () => void;
   onCloseTab: () => void;
+  getWidth?: (width: number) => void;
 };
 
-export const Tab = ({ page, module, onTab, onCloseTab }: TabProps) => {
+export const Tab = ({
+  page,
+  module,
+  onTab,
+  onCloseTab,
+  getWidth,
+}: TabProps) => {
+  const tabRef = useRef<HTMLButtonElement>(null);
+
   const { colors } = useTheme();
 
-  return (
-    <S.Tab key={page} onClick={onTab}>
-      {module && <S.PathText>{module}: </S.PathText>}
+  useEffect(() => {
+    const tabWidth = tabRef.current?.clientWidth ?? 0;
+    getWidth && getWidth(tabWidth);
+  }, []);
 
-      <S.RouteText>{page}</S.RouteText>
+  return (
+    <S.Tab ref={tabRef} key={page} onClick={onTab}>
+      <Container>
+        {module && <S.PathText>{module}: </S.PathText>}
+
+        <S.RouteText>{page}</S.RouteText>
+      </Container>
 
       <MaterialSymbols
         icon="close_small"
