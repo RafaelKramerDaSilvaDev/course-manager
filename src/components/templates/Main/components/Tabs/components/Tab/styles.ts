@@ -4,7 +4,7 @@ import { Span } from "../../../../../../UI/atoms/Span";
 
 export const Tab = styled(Button)`
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
 
   gap: ${({ theme }) => theme.spacings.medium};
@@ -25,7 +25,7 @@ export const Tab = styled(Button)`
     border-radius: 50%;
   }
 
-  span:last-child:hover {
+  > span:hover {
     filter: brightness(90%);
   }
 

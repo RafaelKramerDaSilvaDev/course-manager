@@ -17,7 +17,6 @@
     "@tanstack/react-table": "^8.19.3",
     "@testing-library/jest-dom": "^6.4.8",
     "@testing-library/react": "^16.0.0",
-    "@uidotdev/usehooks": "^2.4.1",
     "axios": "^1.7.2",
     "jsdom": "^24.1.1",
     "json-server": "^1.0.0-beta.1",

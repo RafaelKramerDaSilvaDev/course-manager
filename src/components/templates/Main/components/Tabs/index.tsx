@@ -1,7 +1,11 @@
 import { useNavigate } from "react-router-dom";
 
+import { useTheme } from "styled-components";
 import { useTabsContext } from "../../../../../contexts/useTabsContext";
-import { Tab } from "./components/Tab";
+import { Button } from "../../../../UI/atoms/Button";
+import { MaterialSymbols } from "../../../../UI/atoms/MaterialSymbols";
+import { TabsDropdown } from "./components/TabsDropdown";
+import { TabsHorizontal } from "./components/TabsHorizontal";
 import * as S from "./styles";
 
 type TabsProps = {
@@ -9,50 +13,42 @@ type TabsProps = {
 };
 
 export const Tabs = ({ openSidebar }: TabsProps) => {
-  const { tabs, close, tabContainerRef } = useTabsContext();
-
+  const { tabs, close, tabContainerRef, calculateTabs, closeAll } =
+    useTabsContext();
+  const { colors } = useTheme();
   const navigate = useNavigate();
+  const isMinimumOneTab = tabs.length > 0;
 
-  const handleClickTab = (link: string) => {
+  const handleTab = (link: string) => {
     navigate(link);
   };
 
-  const handleClickCloseTab = (pageKey: string) => {
+  const handleCloseTab = (pageKey: string) => {
     close(pageKey);
   };
 
-  // const { dispatchToast } = useToastContext();
-
-  // const isMinimumOneTab = tabs.length > 0;
-
-  // const handleClickCloseAllTabs = () => {
-  //   closeAll();
-  //   dispatchToast("Tabs Fechadas.");
-  // };
+  const handleCloseAllTabs = () => {
+    closeAll();
+  };
 
   return (
-    <S.TabContainer ref={tabContainerRef} $openSidebar={openSidebar}>
-      {tabs?.map(({ page, module, link, dropdown }) => {
-        if (dropdown) return null;
+    <S.Wrapper>
+      <TabsHorizontal
+        tabs={tabs}
+        onTab={handleTab}
+        onCloseTab={handleCloseTab}
+        calculateTabs={calculateTabs}
+        openSidebar={openSidebar}
+        ref={tabContainerRef}
+      />
 
-        return (
-          <Tab
-            key={page}
-            page={page}
-            module={module}
-            onTab={() => handleClickTab(link)}
-            onCloseTab={() => handleClickCloseTab(page)}
-          />
-        );
-      })}
+      {isMinimumOneTab && (
+        <Button onClick={handleCloseAllTabs}>
+          <MaterialSymbols icon="delete" color={colors.white100} />
+        </Button>
+      )}
 
-      {/* {isMinimumOneTab && (
-        <HeaderAction
-          icon="close"
-          text="Fechar Todas"
-          onClick={handleClickCloseAllTabs}
-        />
-      )} */}
-    </S.TabContainer>
+      <TabsDropdown tabs={tabs} onTab={handleTab} onCloseTab={handleCloseTab} />
+    </S.Wrapper>
   );
 };

@@ -1,13 +1,6 @@
-import { useDebounce } from "@uidotdev/usehooks";
-import {
-  createContext,
-  ReactNode,
-  useContext,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from "react";
+import { createContext, ReactNode, useContext, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { debounce } from "../helpers/debounce";
 import { useResize } from "../hooks/useResize";
 import { TabProps } from "../types/tab";
 
@@ -16,10 +9,8 @@ type TabsContextProps = {
   push: (props: TabProps) => void;
   close: (pageKey: string) => void;
   closeAll: () => void;
-
   tabContainerRef: React.RefObject<HTMLDivElement>;
-  calculateTabs: () => void;
-  calculateTabsDebounce: () => void;
+  calculateTabs: (tabWidth?: number) => void;
 };
 
 const TabsContext = createContext({} as TabsContextProps);
@@ -28,7 +19,7 @@ export const TabsProvider = ({ children }: { children: ReactNode }) => {
   const [tabs, setTabs] = useState<TabProps[]>([]);
 
   const tabContainerRef = useRef<HTMLDivElement>(null);
-  const tabContainerWidthRef = useRef(0);
+  const tabContentWidthRef = useRef(0);
 
   const navigate = useNavigate();
 
@@ -46,8 +37,6 @@ export const TabsProvider = ({ children }: { children: ReactNode }) => {
     if (redirect) {
       navigate(link);
     }
-
-    calculateTabs();
   };
 
   const close = (pageKey: string) => {
@@ -60,23 +49,26 @@ export const TabsProvider = ({ children }: { children: ReactNode }) => {
     setTabs([]);
   };
 
-  const calculateTabs = () => {
-    console.log(tabContainerWidthRef.current);
+  const calculateTabs = (tabWidth?: number) => {
+    const tabContainerWidth = tabContainerRef.current?.clientWidth ?? 0;
 
-    if (tabContainerWidthRef.current >= 4000) {
-      setTabs(() => {
-        // const lastTab = prevTabs[prevTabs.length - 1];
-        // return [...prevTabs, { ...lastTab, dropdown: true }];
-        return [];
+    if (tabWidth) {
+      tabContentWidthRef.current += tabWidth;
+    }
+
+    if (tabContentWidthRef.current >= tabContainerWidth) {
+      setTabs((prevTabs) => {
+        const lastTabIndex = prevTabs.length - 1;
+        const lastTab = prevTabs[lastTabIndex];
+
+        prevTabs.splice(lastTabIndex, 1);
+
+        return [...prevTabs, { ...lastTab, dropdown: true }];
       });
     }
   };
 
-  const calculateTabsDebounce = useDebounce(calculateTabs, 200);
-
-  useLayoutEffect(() => {
-    tabContainerWidthRef.current = tabContainerRef.current?.clientWidth ?? 0;
-  }, [tabContainerRef]);
+  const calculateTabsDebounce = debounce(calculateTabs);
 
   useResize(() => {
     calculateTabsDebounce();
@@ -91,7 +83,6 @@ export const TabsProvider = ({ children }: { children: ReactNode }) => {
         closeAll,
         tabContainerRef,
         calculateTabs,
-        calculateTabsDebounce,
       }}
     >
       {children}

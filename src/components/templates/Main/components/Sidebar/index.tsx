@@ -19,7 +19,7 @@ export const Sidebar = ({ toggleMenu, toggleOnMenu }: SidebarProps) => {
     toggleOff: toggleOffPath,
   } = useToggle(false);
 
-  const { push, calculateTabsDebounce } = useTabsContext();
+  const { push } = useTabsContext();
 
   const handleClickRouteNavigate = ({
     link,
@@ -37,16 +37,11 @@ export const Sidebar = ({ toggleMenu, toggleOnMenu }: SidebarProps) => {
   const handleClickMenu = () => {
     toggleMenu();
     toggleOffPath();
-    calculateTabsDebounce();
   };
 
   const handleClickPath = () => {
     togglePath();
     toggleOnMenu();
-
-    if (!openPath) {
-      calculateTabsDebounce();
-    }
   };
 
   return (
@@ -56,9 +51,6 @@ export const Sidebar = ({ toggleMenu, toggleOnMenu }: SidebarProps) => {
       {SidebarRoutes?.map(
         ({ icon, name: namePath, link: linkPath, children }) => {
           const routeAmount = children?.length ?? 0;
-
-          console.log(children);
-          console.log(routeAmount);
 
           if (!linkPath) {
             linkPath = normalize(namePath);
