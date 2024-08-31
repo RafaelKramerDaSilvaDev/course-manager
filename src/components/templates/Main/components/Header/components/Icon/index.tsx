@@ -12,7 +12,7 @@ export const Icon = ({ icon, onClick }: IconProps) => {
 
   return (
     <S.Circle onClick={onClick}>
-      <MaterialSymbols icon={icon} color={colors.grey300} />
+      <MaterialSymbols icon={icon} color={colors.grey300} fontSize={18} />
     </S.Circle>
   );
 };

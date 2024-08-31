@@ -6,10 +6,10 @@ export const Circle = styled(Container)`
   justify-content: center;
   align-items: center;
 
-  min-width: 24px;
-  min-height: 24px;
-
   border-radius: 50%;
+
+  width: 32px;
+  height: 32px;
 
   background-color: ${({ theme }) => theme.colors.white100};
 
