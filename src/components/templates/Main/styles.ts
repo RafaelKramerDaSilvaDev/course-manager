@@ -14,7 +14,7 @@ export const MainTemplate = styled.main<{ $openSidebar: boolean }>`
     return "260px auto";
   }};
 
-  grid-template-rows: min-content auto;
+  grid-template-rows: 48px auto;
 
   height: 100dvh;
   width: 100dvw;

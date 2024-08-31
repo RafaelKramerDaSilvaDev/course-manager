@@ -8,10 +8,8 @@ export const Circle = styled(Container)`
 
   border-radius: 50%;
 
-  max-width: 40px;
-  max-height: 40px;
-
-  border: 2px solid ${({ theme }) => theme.colors.white100};
+  width: 32px;
+  height: 32px;
 
   cursor: pointer;
 

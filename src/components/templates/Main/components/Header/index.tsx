@@ -12,7 +12,7 @@ export const Header = () => {
       <Icon icon="notifications" onClick={handleClickNotification} />
 
       <ProfileIcon
-        srcImage="https://media.licdn.com/dms/image/D5603AQGaYJS-N-Q9LQ/profile-displayphoto-shrink_800_800/0/1722480413675?e=1727913600&v=beta&t=C1NrfadGTveFmeDaDol2G5BBvOydDoE12YQcw0o5xtQ"
+        srcImage="https://avatars.githubusercontent.com/u/135643864?v=4"
         onProfile={handleClickProfile}
       />
     </S.Header>
