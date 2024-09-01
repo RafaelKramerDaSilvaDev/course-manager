@@ -10,6 +10,7 @@ export const Tab = styled(Button)`
   gap: ${({ theme }) => theme.spacings.medium};
   padding: ${({ theme }) => `${theme.spacings.small} ${theme.spacings.medium}`};
   min-width: fit-content;
+  border-radius: ${({ theme }) => theme.borderRadius.small};
 
   background-color: ${({ theme }) => theme.colors.white100};
 
