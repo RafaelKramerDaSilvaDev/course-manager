@@ -8,6 +8,7 @@ export const RouteAction = styled.li`
   gap: ${({ theme }) => theme.spacings.xsmall};
   min-height: 38px;
   min-width: 38px;
+  border-radius: ${({ theme }) => theme.borderRadius.small};
 
   background-color: ${({ theme }) => theme.colors.white100};
   color: ${({ theme }) => theme.colors.grey500};

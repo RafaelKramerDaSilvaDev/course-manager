@@ -5,6 +5,8 @@ type ProfileDropdownProps = {
   srcProfile: string;
 };
 
+// TODO: Fazer este componente
+
 export const ProfileDropdown = ({ srcProfile }: ProfileDropdownProps) => {
   return (
     <S.Circle>
